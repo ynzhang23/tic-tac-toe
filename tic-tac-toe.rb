@@ -5,7 +5,7 @@ class Board
 
   def initialize()
     @board_positions = {
-      "1" => "*",
+      "1" => 1,
       "2" => 2,
       "3" => 3,
       "4" => 4,
@@ -25,15 +25,15 @@ class Board
     puts " #{@board_positions["7"]} | #{@board_positions["8"]} | #{@board_positions["9"]} "
   end
 
-  def update_board(chosen_position, player_symbol)
-    @board_positions[chosen_position] = player_symbol
+  def update_board(input_position, player_symbol)
+    @board_positions[input_position] = player_symbol
     print_board
   end
 end
 
 # Class: players
 class Player
-  attr_reader :player_name, :player_symbol, :positions
+  attr_reader :player_name, :player_symbol, :positions, :winning_array
   
   def initialize(player_name, player_symbol, positions)
     @player_name = player_name
@@ -63,6 +63,27 @@ class Player
     @positions.push position
     return position
   end
+
+  def won?()
+    @winning_array = [
+      ["1", "2", "3"],
+      ["4", "5", "6"],
+      ["7", "8", "9"],
+      ["1", "4", "7"],
+      ["2", "5", "8"],
+      ["3", "6", "9"],
+      ["1", "5", "9"],
+      ["3", "5", "7"]
+    ]
+    # Check if the player positions are part of the winning combinations
+    @winning_array.each do |connected_three|
+      if @positions & connected_three == connected_three
+        return true
+      end
+    end
+    # If nothing, return false and continue the game
+    return false
+  end
 end
 
 # Ask for player info
@@ -73,24 +94,47 @@ player_2 = Player.new_player_2
 board = Board.new
 board.print_board
 
-# Ask for player_1's choice
 input_position = ''
 
-# until chosen position is a number (it will be a string if it has already been occupied), ask again
+# Repeat for 4 rounds
+4.times do 
+  # Player_1's choice
+  # Until chosen position is a number (it will be a string if it has already been occupied), ask again
+  until board.board_positions[input_position].is_a? Numeric
+    input_position = player_1.input_positions
+  end
+  # Replace value with player symbol
+  board.update_board(input_position, player_1.player_symbol)
+  input_position = ''
+  # Check for win
+  if player_1.won?
+    puts "Winner is #{player_1.player_name}!!!"
+    exit
+  end
+
+  # Player_2's choice
+  # Until chosen position is a number (it will be a string if it has already been occupied), ask again
+  until board.board_positions[input_position].is_a? Numeric
+    input_position = player_2.input_positions
+  end
+  # Replace value with player symbol
+  board.update_board(input_position, player_2.player_symbol) 
+  input_position = ''
+
+  # Check for win
+  if player_2.won?
+    puts "Winner is #{player_2.player_name}!!!"
+    exit
+  end
+end
+
+# Last Turn
+# Player_1's choice
+# Until chosen position is a number (it will be a string if it has already been occupied), ask again
 until board.board_positions[input_position].is_a? Numeric
   input_position = player_1.input_positions
 end
-
-# replace value with player symbol
-board.update_board(chosen_position, player_1.player_symbol)
-input_position = ''
-
-# ask for player_2's position
-
-# until chosen position is a number (it will be a string if it has already been occupied), ask again
-until board.board_positions[chosen_position].is_a? Numeric
-  chosen_position = player_2.input_positions
-end
-
-# replace value with player symbol
-board.update_board(chosen_position, player_2.player_symbol) 
+# Replace value with player symbol
+board.update_board(input_position, player_1.player_symbol)
+puts "It's a draw!"
+exit
