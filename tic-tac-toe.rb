@@ -1,56 +1,67 @@
 require "pry-byebug"
+# Class: board
+class Board
+  attr_accessor :board_positions
+
+  def initialize()
+    @board_positions = {
+      "1" => "*",
+      "2" => 2,
+      "3" => 3,
+      "4" => 4,
+      "5" => 5,
+      "6" => 6,
+      "7" => 7,
+      "8" => 8,
+      "9" => 9,
+    }
+  end
+
+  def print_board()
+    puts " #{@board_positions["1"]} | #{@board_positions["2"]} | #{@board_positions["3"]} "
+    puts "-----------"
+    puts " #{@board_positions["4"]} | #{@board_positions["5"]} | #{@board_positions["6"]} "
+    puts "-----------"
+    puts " #{@board_positions["7"]} | #{@board_positions["8"]} | #{@board_positions["9"]} "
+  end
+
+  def update_board(chosen_position, player_symbol)
+    @board_positions[chosen_position] = player_symbol
+    print_board
+  end
+end
 
 # Class: players
 class Player
-  attr_reader :name, :symbol, :positions
+  attr_reader :player_name, :player_symbol, :positions
   
-  def initialize(name, symbol, positions)
-    @name = name
-    @symbol = symbol
+  def initialize(player_name, player_symbol, positions)
+    @player_name = player_name
+    @player_symbol = player_symbol
     @positions = positions
   end
 
   def Player.new_player_1()
     puts "Player 1's Name: "
-    name = gets.chomp
-    puts "Choose your symbol: "
-    symbol = gets.chomp
-    Player.new(name, symbol, [])
+    player_name = gets.chomp
+    puts "Type your symbol: "
+    player_symbol = gets.chomp
+    Player.new(player_name, player_symbol, [])
   end
 
   def Player.new_player_2()
     puts "Player 2's Name: "
-    name = gets.chomp
-    puts "Choose your symbol: "
-    symbol = gets.chomp
-    Player.new(name, symbol, [])
-  end
-end
-
-# Class: board
-class Board
-  attr_reader :board_positions
-
-  def initialize()
-    @board_positions = {
-      r1_c1: "1",
-      r1_c2: "2",
-      r1_c3: "3",
-      r2_c1: "4",
-      r2_c2: "5",
-      r2_c3: "6",
-      r3_c1: "7",
-      r3_c2: "8",
-      r3_c3: "9",
-    }
+    player_name = gets.chomp
+    puts "Type your symbol: "
+    player_symbol = gets.chomp
+    Player.new(player_name, player_symbol, [])
   end
 
-  def print_board()
-    puts " #{@board_positions[:r1_c1]} | #{@board_positions[:r1_c2]} | #{@board_positions[:r1_c3]} "
-    puts "-----------"
-    puts " #{@board_positions[:r2_c1]} | #{@board_positions[:r2_c2]} | #{@board_positions[:r2_c3]} "
-    puts "-----------"
-    puts " #{@board_positions[:r3_c1]} | #{@board_positions[:r3_c2]} | #{@board_positions[:r3_c3]} "
+  def input_positions ()
+    puts "Choose a position on the board (1~9): "
+    position = gets.chomp
+    @positions.push position
+    return position
   end
 end
 
@@ -62,9 +73,24 @@ player_2 = Player.new_player_2
 board = Board.new
 board.print_board
 
-# Ask for player_1's position
-  # if chosen position already occupied, ask again
-  # replace value with player symbol
+# Ask for player_1's choice
+input_position = ''
+
+# until chosen position is a number (it will be a string if it has already been occupied), ask again
+until board.board_positions[input_position].is_a? Numeric
+  input_position = player_1.input_positions
+end
+
+# replace value with player symbol
+board.update_board(chosen_position, player_1.player_symbol)
+input_position = ''
+
 # ask for player_2's position
-  # if chosen position already occupied, ask again
-  # replace value with player symbol
+
+# until chosen position is a number (it will be a string if it has already been occupied), ask again
+until board.board_positions[chosen_position].is_a? Numeric
+  chosen_position = player_2.input_positions
+end
+
+# replace value with player symbol
+board.update_board(chosen_position, player_2.player_symbol) 
