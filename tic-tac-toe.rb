@@ -1,6 +1,6 @@
 require "pry-byebug"
 
-# initialize players
+# Class: players
 class Player
   attr_reader :name, :symbol, :positions
   
@@ -26,14 +26,43 @@ class Player
     Player.new(name, symbol, [])
   end
 end
+
+# Class: board
+class Board
+  attr_reader :board_positions
+
+  def initialize()
+    @board_positions = {
+      r1_c1: "1",
+      r1_c2: "2",
+      r1_c3: "3",
+      r2_c1: "4",
+      r2_c2: "5",
+      r2_c3: "6",
+      r3_c1: "7",
+      r3_c2: "8",
+      r3_c3: "9",
+    }
+  end
+
+  def print_board()
+    puts " #{@board_positions[:r1_c1]} | #{@board_positions[:r1_c2]} | #{@board_positions[:r1_c3]} "
+    puts "-----------"
+    puts " #{@board_positions[:r2_c1]} | #{@board_positions[:r2_c2]} | #{@board_positions[:r2_c3]} "
+    puts "-----------"
+    puts " #{@board_positions[:r3_c1]} | #{@board_positions[:r3_c2]} | #{@board_positions[:r3_c3]} "
+  end
+end
+
+# Ask for player info
 player_1 = Player.new_player_1
 player_2 = Player.new_player_2
 
-# initialize board
+# Print out board
+board = Board.new
+board.print_board
 
-
-# print out board
-# ask for player_1's position
+# Ask for player_1's position
   # if chosen position already occupied, ask again
   # replace value with player symbol
 # ask for player_2's position
