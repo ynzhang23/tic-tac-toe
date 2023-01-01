@@ -2,7 +2,8 @@
 
 # Creates player information and determine winning condition
 class Player
-  attr_reader :player_name, :player_symbol, :positions, :winning_array
+  attr_reader :player_name, :player_symbol, :winning_array
+  attr_accessor :positions
 
   def initialize(player_name, player_symbol, positions)
     @player_name = player_name
@@ -10,7 +11,7 @@ class Player
     @positions = positions
   end
 
-  def Player.new_player_1()
+  def Player.new_player_1
     puts "Player 1's Name: "
     player_name = gets.chomp
     puts "Type your symbol: "
@@ -18,7 +19,7 @@ class Player
     Player.new(player_name, player_symbol, [])
   end
 
-  def Player.new_player_2()
+  def Player.new_player_2
     puts "Player 2's Name: "
     player_name = gets.chomp
     puts "Type your symbol: "
@@ -26,14 +27,14 @@ class Player
     Player.new(player_name, player_symbol, [])
   end
 
-  def input_positions ()
+  def input_positions
     puts "Choose a position on the board (1~9): "
     position = gets.chomp
     @positions.push position
     return position
   end
 
-  def won?()
+  def won?
     winning_array = [
       ["1", "2", "3"],
       ["4", "5", "6"],
