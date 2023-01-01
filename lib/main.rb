@@ -5,7 +5,7 @@ require_relative 'player'
 
 # Ask for player info
 player_one = Player.new_player_1
-player_two = Player.new_player_two
+player_two = Player.new_player_2
 
 # Print out board
 board = Board.new
